@@ -2,44 +2,20 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {useLocation} from 'react-router-dom';
 import {
-  Box, Button, Divider, Drawer, Hidden, List, makeStyles, TextField, Typography,
+  Box, Button, Divider, Drawer, Hidden, List, makeStyles,
+  TextField, Typography, Grid,
 } from '@material-ui/core';
-import {BarChart, Search, SupervisedUserCircle} from '@material-ui/icons';
+import {
+  Search, Compare,
+} from '@material-ui/icons';
 import NavItem from './NavItem';
+import overrallIcon from '../../utils/images/overrall.png';
+import atackIcon from '../../utils/images/attack.png';
+import deffenceIcon from '../../utils/images/defence.png';
+import magicIcon from '../../utils/images/magic5.png';
+import cookIcon from '../../utils/images/cook.png';
+import craftIcon from '../../utils/images/crafting.png';
 
-
-const appMenu = [
-  {
-    href: '/app/overall',
-    icon: BarChart,
-    title: 'Overall',
-  },
-  {
-    href: '/app/attack',
-    icon: SupervisedUserCircle,
-    title: 'Attack',
-  },
-  {
-    href: '/app/defence',
-    icon: SupervisedUserCircle,
-    title: 'Defence',
-  },
-  {
-    href: '/app/magic',
-    icon: SupervisedUserCircle,
-    title: 'Magic',
-  },
-  {
-    href: '/app/cooking',
-    icon: SupervisedUserCircle,
-    title: 'Cooking',
-  },
-  {
-    href: '/app/crafting',
-    icon: SupervisedUserCircle,
-    title: 'Crafting',
-  },
-];
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -58,13 +34,57 @@ const useStyles = makeStyles(() => ({
   divider: {
     background: '#777777',
   },
+  MuiGrid: {
+    item: {
+      padding: '2px !important',
+    },
+  },
+  imageIcon: {
+    display: 'flex',
+    height: 'inherit',
+    width: 'inherit',
+  },
 }));
+
 
 const LeftPanel = ({onMobileClose, openMobile}) => {
   const [user, setUser] = useState(null);
 
   const classes = useStyles();
   const location = useLocation();
+
+  const appMenu = [
+    {
+      href: '/app/overall',
+      icon: overrallIcon,
+      title: 'Overall',
+    },
+    {
+      href: '/app/attack',
+      icon: atackIcon,
+      title: 'Attack',
+    },
+    {
+      href: '/app/defence',
+      icon: deffenceIcon,
+      title: 'Defence',
+    },
+    {
+      href: '/app/magic',
+      icon: magicIcon,
+      title: 'Magic',
+    },
+    {
+      href: '/app/cooking',
+      icon: cookIcon,
+      title: 'Cooking',
+    },
+    {
+      href: '/app/crafting',
+      icon: craftIcon,
+      title: 'Crafting',
+    },
+  ];
 
   const items = appMenu;
 
@@ -81,13 +101,14 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
     // todo Achini Navigate to user
   };
 
+
   const content = (
     <Box
       height="100%"
       display="flex"
       flexDirection="column"
     >
-      <Box p={4}>
+      <Box p={2}>
         <List>
           {items.map((item) => (
             <NavItem
@@ -100,69 +121,107 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
         </List>
       </Box>
       <Divider classes={{root: classes.divider}}/>
-      <Box p={5}>
-        <Typography
-          align="center"
-          color="textPrimary"
-          variant="h4"
-        >
-          Search by Name
-        </Typography>
-        <TextField
-          onChange={(e) => {
-            setUser(e.target.value);
-          }}
-          value={user}
-          placeholder="User Name"
-          variant="outlined"
-          required
-          type="string"
-        />
-        <Button variant="contained"
-          color="primary"
-          endIcon={<Search/>}
-          onClick={handleClick
-          }>Search</Button>
 
+      <Box p={1}>
+        <Grid container spacing={1}>
+          <Grid item xs={11}>
+            <Typography
+              align="left"
+              color="textPrimary"
+              variant="h5"
+            >
+              Search
+            </Typography>
+          </Grid>
+          <Grid item xs={11}>
+            <TextField
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+              value={user}
+              placeholder="Player Name"
+              variant="outlined"
+              required
+              type="string"
+              inputProps={{
+                style: {
+                  padding: 5,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={11}>
+            <Button variant="contained"
+              color="primary"
+              endIcon={<Search/>}
+              href="/app/player"
+              size= 'small'
+              onClick={handleClick}
+            >
+              Search
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
+
 
       <Divider classes={{root: classes.divider}}/>
-      <Box p={3}>
+
+      <Box p={1}>
+        <Grid container spacing={1}>
+          <Grid item xs={11}>
+            <Typography
+              align="left"
+              color="textPrimary"
+              variant="h5"
+            >
+              Compare Players
+            </Typography>
+          </Grid>
+          <Grid item xs={11}>
+            <TextField
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+              value={user}
+              placeholder="Player 1"
+              variant="outlined"
+              required
+              type="string"
+              inputProps={{
+                style: {
+                  padding: 5,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={11}>
+            <TextField
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+              value={user}
+              placeholder="Player 2"
+              variant="outlined"
+              required
+              type="string"
+              inputProps={{
+                style: {
+                  padding: 5,
+                },
+              }}
+            />
+          </Grid>
+          <Grid item xs={11}>
+            <Button variant="contained"
+              color="primary"
+              endIcon={<Compare/>}
+              href="/app/compareplayers"
+            >Compare</Button>
+          </Grid>
+        </Grid>
       </Box>
-      <Box p={5}>
-        <Typography
-          align="center"
-          color="textPrimary"
-          variant="h4"
-        >
-                Compare Users
-        </Typography>
-        <TextField
-          onChange={(e) => {
-            setUser(e.target.value);
-          }}
-          value={user}
-          placeholder="User Name"
-          variant="outlined"
-          required
-          type="string"
-        />
-        <TextField
-          onChange={(e) => {
-            setUser(e.target.value);
-          }}
-          value={user}
-          placeholder="User Name"
-          variant="outlined"
-          required
-          type="string"
-        />
-        <Button variant="contained"
-          color="primary"
-          endIcon={<Search/>}
-          onClick={handleClick
-          }>Search</Button>
-      </Box>
+
 
     </Box>
   );

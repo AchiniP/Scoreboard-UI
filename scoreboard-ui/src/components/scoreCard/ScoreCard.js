@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import MUIDataTable from 'mui-datatables';
-import {Box, Link, Grid} from '@material-ui/core';
+import {Box, Link, Grid, Typography} from '@material-ui/core';
 import appGlobalObj from '../../utils/AppGlobal';
 import AppDialog from '../../utils/AppDialog';
 import PlayerScoreCard from './PlayerScoreCard';
@@ -16,7 +16,7 @@ const ScoreCard = (props) => {
   const [playerName, setPlayerName] = useState(null);
   const [popUpTitle, setPopupTitle] = useState(null);
 
-  const {category} = props;
+  const {category, ico} = props;
 
 
   const getUserList = () => {
@@ -43,7 +43,7 @@ const ScoreCard = (props) => {
 
       MuiTable: {
         root: {
-          border: '2px solid #777777',
+          border: '1px solid #777777',
         },
       },
       MuiTableCell: {
@@ -77,7 +77,7 @@ const ScoreCard = (props) => {
   });
 
   const openInPopup = (name) => {
-    setPopupTitle('Player Scorecard: ');
+    setPopupTitle('Player Scorecard');
     setPlayerName(name);
     setOpenPopup(true);
   };
@@ -121,53 +121,76 @@ const ScoreCard = (props) => {
 
   ];
 
+
+  const titleTemp =
+    <Grid container item xs={12} spacing={2}>
+      <Grid item xs={2} >
+        <img src={ico} alt='' style={{height: '40px', width: '40px'}}>
+        </img>
+      </Grid>
+      <Grid item xs={8}>
+        <Typography
+          align="left"
+          variant="h5"
+          style={{paddingTop: '5px'}}
+        >
+          {category.toUpperCase()}
+        </Typography>
+
+      </Grid>
+    </Grid>;
+
+
   return (
     userData && userData.data &&
-      (
-        <div>
-          <Box sx={{m: 2}} minHeight={'100%'}>
-            <Grid container rowSpacing={10} >
+    (
+      <div>
+        <Box sx={{m: 5}} minHeight={'100%'}>
+          <Grid container rowSpacing={10}>
 
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={8}>
-                <MuiThemeProvider theme={muiTableTheme}>
-                  <MUIDataTable
-                    title={category}
-                    data={userData.data}
-                    columns={columns}
-
-                    options={{
-                      selectableRows: false,
-                      responsive: 'scroll',
-                      filter: false,
-                      download: false,
-                      viewColumns: false,
-                      pagination: false,
-
-                    }}
-                  />
-                </MuiThemeProvider>
-              </Grid>
-
-              <Grid item xs={2}>
-              </Grid>
-
+            <Grid item xs={2}>
             </Grid>
-          </Box>
-          <AppDialog
-            title={popUpTitle}
-            openPopup={openPopup}
-            setOpenPopup={setOpenPopup}
-          >
-            <PlayerScoreCard name={playerName} />
-          </AppDialog>
-        </div>
-      )
+            <Grid item xs={8} style={{border: '1px solid #777777'}}>
+              <MuiThemeProvider theme={muiTableTheme}>
+                <MUIDataTable
+                  title={titleTemp}
+                  data={userData.data}
+                  columns={columns}
+
+                  options={{
+                    selectableRows: false,
+                    responsive: 'scroll',
+                    filter: false,
+                    download: false,
+                    viewColumns: false,
+                    pagination: false,
+
+                  }}
+                />
+              </MuiThemeProvider>
+            </Grid>
+
+            <Grid item xs={2}>
+            </Grid>
+
+          </Grid>
+        </Box>
+        <AppDialog
+          title={popUpTitle}
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <PlayerScoreCard name={playerName} />
+        </AppDialog>
+      </div>
+    )
   );
 };
 
 ScoreCard.propTypes = {
   category: PropTypes.string,
+  ico: PropTypes.string,
+
+
 };
 export default ScoreCard;

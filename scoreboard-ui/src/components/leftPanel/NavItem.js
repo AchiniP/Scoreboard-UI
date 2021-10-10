@@ -57,11 +57,9 @@ const NavItem = ({
         component={RouterLink}
         to={href}
       >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
+        {(Icon &&
+          <img src={Icon} alt="" style={{height: '35px', width: '35px'}}>
+          </img>
         )}
         <span className={classes.title}>
           {title}

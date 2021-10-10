@@ -6,7 +6,7 @@ import {createTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 
-const PlayerScoreCard = (props) => {
+const PlayerDetails = (props) => {
   const apiContextPath = AppGlobalObj.apiContextPath;
 
   const [playerData, setPlayerData] = useState(null);
@@ -90,40 +90,41 @@ const PlayerScoreCard = (props) => {
 
   return (
     playerData && playerData.data &&
-    (
-      <div>
-        <Box sx={{m: 2}} maxHeight={'80%'}>
-          <Grid container rowSpacing={10} >
+      (
+        <div>
+          <Box sx={{m: 2}} maxHeight={'80%'}
+            style={{padding: '10px 10px 10px 10%'}}>
+            <Grid container rowSpacing={10} >
 
-            <Grid item xs={8}>
-              <MuiThemeProvider theme={muiTableTheme}>
-                <MUIDataTable
-                  title={name}
-                  data={playerData.data}
-                  columns={playerTableColumns}
+              <Grid item xs={8}>
+                <MuiThemeProvider theme={muiTableTheme}>
+                  <MUIDataTable
+                    title={name}
+                    data={playerData.data}
+                    columns={playerTableColumns}
 
-                  options={{
-                    selectableRows: false, // will turn off checkboxes in rows
-                    responsive: 'scroll',
-                    filter: false,
-                    download: false,
-                    viewColumns: false,
-                    pagination: false,
+                    options={{
+                      selectableRows: false, // will turn off checkboxes in rows
+                      responsive: 'scroll',
+                      filter: false,
+                      download: false,
+                      viewColumns: false,
+                      pagination: false,
 
-                  }}
-                />
-              </MuiThemeProvider>
+                    }}
+                  />
+                </MuiThemeProvider>
+              </Grid>
+
             </Grid>
-
-          </Grid>
-        </Box>
-      </div>
-    )
+          </Box>
+        </div>
+      )
   );
 };
 
-PlayerScoreCard.propTypes = {
+PlayerDetails.propTypes = {
   name: PropTypes.string,
 };
 
-export default PlayerScoreCard;
+export default PlayerDetails;

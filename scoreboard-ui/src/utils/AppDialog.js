@@ -4,7 +4,7 @@ import {
   Dialog, DialogTitle, DialogContent, makeStyles, Typography, Button, Divider,
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import Background from './OverlayBackGround.jpg';
+import Background from './images/DialogBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
@@ -12,13 +12,19 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: theme.spacing(3),
     backgroundImage: 'url(' + Background + ')',
-    maxHeight: '500px',
+    minHeight: '40%',
+    maxHeight: '600px',
     overflow: 'hidden',
     border: '2px solid #777777',
+    marginTop: '60px',
+    marginLeft: '20%',
 
   },
   dialogTitle: {
     padding: '1px 0px 0px 20px',
+  },
+  divider: {
+    background: '#777777',
   },
 
 }));
@@ -35,10 +41,11 @@ const AppDialog = (props) => {
       <Dialog open={openPopup}
         fullWidth
         maxWidth="md"
-        classes={{paper: classes.dialogWrapper}}>
+        classes={{paper: classes.dialogWrapper}}
+      >
         <DialogTitle className={classes.dialogTitle} />
         <div style={{display: 'flex'}}>
-          <Typography variant="h6" component="div" style={{flexGrow: 1}}>
+          <Typography variant="h4" component="div" style={{flexGrow: 1}}>
             {title}
           </Typography>
           <Button
@@ -49,7 +56,7 @@ const AppDialog = (props) => {
             <CloseIcon />
           </Button>
         </div>
-        <Divider />
+        <Divider classes={{root: classes.divider}}/>
         <DialogContent style={{
           overflow: 'hidden', height: '80%', width: '100%',
         }}>

@@ -7,7 +7,7 @@ const useStyles = makeStyles(() => createStyles({
       margin: 0,
       padding: 0,
       color: '#F78B11',
-      fontSize: '18px',
+      fontSize: '16px',
     },
     'html': {
       '-webkit-font-smoothing': 'antialiased',

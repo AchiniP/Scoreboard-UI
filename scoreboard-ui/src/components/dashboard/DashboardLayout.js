@@ -4,8 +4,7 @@ import {Outlet} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core';
 import Header from '../header/Header';
 import LeftPanel from '../leftPanel/LeftPanel';
-import Background from './Background.jpg';
-
+import Background from '../../utils/images/Background.jpg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
