@@ -1,26 +1,54 @@
-/* eslint-disable react/prop-types */
 import React, {useState, useEffect} from 'react';
-import {Box, Grid, TableCell, TableHead, TableRow} from '@material-ui/core';
+import MUIDataTable from 'mui-datatables';
+import {Box, Grid} from '@material-ui/core';
 import AppGlobalObj from '../../utils/AppGlobal';
 import {createTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import MaterialTable from 'material-table';
+import {useLocation} from 'react-router-dom';
+import axios from 'axios';
 
-const ComparePlayers = (props) => {
-  const apiContextPath = AppGlobalObj.apiContextPath;
 
-  const [playerData, setPlayerData] = useState(null);
+const ComparePlayers = () => {
+  const {state} = useLocation();
 
-  const {name} = props;
+  const apiRoute = AppGlobalObj.scoreAPIRoute;
+
+  const [sourceUserData, setSourceUserData] = useState([]);
+  const [targetUserData, setTargetUserData] = useState([]);
+
+
+  const {sourceUserName, targetUserName} = state;
 
   const getPlayer = () => {
-    fetch(apiContextPath + '/employees')
-        .then((res) => res.json())
-        .then(setPlayerData)
-        .catch(console.error);
+    const REQ_OBJ_SOURCE = {
+      method: 'GET',
+      url: `${apiRoute}/user/${sourceUserName.trim()}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const REQ_OBJ_TARGET = {
+      method: 'GET',
+      url: `${apiRoute}/user/${targetUserName.trim()}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    axios(REQ_OBJ_SOURCE)
+        .then((res) => setSourceUserData(res.data))
+        .catch((err) => {
+          console.log(err);
+          setSourceUserData([]);
+        });
+    axios(REQ_OBJ_TARGET)
+        .then((res) => setTargetUserData(res.data))
+        .catch((err) => {
+          console.log(err);
+          setTargetUserData([]);
+        });
   };
 
-  useEffect(getPlayer, []);
+  useEffect(getPlayer, [apiRoute, sourceUserName, targetUserName]);
 
   const muiTableTheme = () => createTheme({
     overrides: {
@@ -32,11 +60,13 @@ const ComparePlayers = (props) => {
       },
       MuiTableCell: {
         head: {
-          backgroundColor: '#3F4142',
+          backgroundColor: '#3F4142 !important',
           padding: '5px',
         },
-        body: {
-          backgroundColor: '#323232',
+      },
+      MUIDataTableBodyCell: {
+        root: {
+          backgroundColor: '#000000',
           padding: '5px',
           color: '#F78B11',
           borderBlockColor: '#777777 !important',
@@ -60,7 +90,7 @@ const ComparePlayers = (props) => {
 
   const playerTableColumns = [
     {
-      name: 'employee_name',
+      name: 'category',
       label: 'Skill',
       options: {
         filter: true,
@@ -68,7 +98,7 @@ const ComparePlayers = (props) => {
       },
     },
     {
-      name: 'id',
+      name: 'rank',
       label: 'Rank',
       options: {
         filter: true,
@@ -76,7 +106,15 @@ const ComparePlayers = (props) => {
       },
     },
     {
-      name: 'employee_salary',
+      name: 'level',
+      label: 'Level',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'score',
       label: 'XP',
       options: {
         filter: true,
@@ -86,127 +124,79 @@ const ComparePlayers = (props) => {
 
   ];
 
-  const p1BG = '#005301';
-  const p2BG = '#003866';
-  const p1BGBd = '#1B5720';
-  const p2BGBd = '#1B3F57';
-
   return (
-    playerData && playerData.data &&
-      (
-        <div>
-          <Box sx={{m: 2}} maxHeight={'80%'} p={2}>
-            <Grid container rowSpacing={10} >
+    <Grid xs={12}>
+      <Box xs={4}>
+        {
+          sourceUserData &&
+          (
+            <div>
+              <Box sx={{m: 2}} maxHeight={'80%'}
+                style={{padding: '10px 10px 10px 10%'}}>
+                <Grid container rowSpacing={10} >
 
-              <Grid item xs={10}>
-                <MuiThemeProvider theme={muiTableTheme}>
-                  <MaterialTable
-                    title='Compare Players'
-                    data={playerData.data}
-                    components={{
-                      Header: () => {
-                        return (
-                          <TableHead>
-                            <TableRow>
-                              <TableCell colSpan={1} align="center">
-                              </TableCell>
-                              <TableCell colSpan={3} align="center"
-                                style={{backgroundColor: p1BG}}
-                              >
-                                <Box>
-                                  Player 1
-                                </Box>
-                              </TableCell>
-                              <TableCell colSpan={3} align="center"
-                                style={{backgroundColor: p2BG}}>
-                                <Box>
-                                Player 2
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                            <TableRow>
-                              <TableCell align="left">
-                                <Box>Skill</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p1BG}}>
-                                <Box>Rank</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p1BG}}>
-                                <Box>Level</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p1BG}}>
-                                <Box>XP</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p2BG}}>
-                                <Box>Rank</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p2BG}}>
-                                <Box>Level</Box>
-                              </TableCell>
-                              <TableCell align="left"
-                                style={{backgroundColor: p2BG}}>
-                                <Box>XP</Box>
-                              </TableCell>
-                            </TableRow>
-                          </TableHead>
-                        );
-                      },
-                      Row: ({data}) => {
-                        return (
-                          <TableRow>
-                            <TableCell align="left">Skill 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p1BGBd}}>
-                              Rank 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p1BGBd}}>
-                              Rank 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p1BGBd}}>
-                              Rank 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p2BGBd}}>
-                              Rank 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p2BGBd}}>
-                              Rank 1
-                            </TableCell>
-                            <TableCell align="left"
-                              style={{backgroundColor: p2BGBd}}>
-                              Rank 1
-                            </TableCell>
-                          </TableRow>
-                        );
-                      },
-                    }}
+                  <Grid item xs={8}>
+                    <MuiThemeProvider theme={muiTableTheme}>
+                      <MUIDataTable
+                        title={sourceUserName.toUpperCase()}
+                        data={sourceUserData}
+                        columns={playerTableColumns}
 
-                    options={{
-                      selectableRows: false, // will turn off checkboxes in rows
-                      responsive: 'scroll',
-                      paging: false,
-                      search: false,
-                      maxBodyHeight: '600px',
+                        options={{
+                          selectableRows: false,
+                          responsive: 'scroll',
+                          filter: false,
+                          download: false,
+                          viewColumns: false,
+                          pagination: false,
 
+                        }}
+                      />
+                    </MuiThemeProvider>
+                  </Grid>
 
-                    }}
-                  />
-                </MuiThemeProvider>
-              </Grid>
+                </Grid>
+              </Box>
+            </div>
+          )
+        }
+      </Box>
+      <Box xs={4}>
+        {
+          targetUserData &&
+          (
+            <div>
+              <Box sx={{m: 2}} maxHeight={'80%'}
+                style={{padding: '10px 10px 10px 10%'}}>
+                <Grid container rowSpacing={10} >
 
-            </Grid>
-          </Box>
-        </div>
-      )
+                  <Grid item xs={8}>
+                    <MuiThemeProvider theme={muiTableTheme}>
+                      <MUIDataTable
+                        title={targetUserName.toUpperCase()}
+                        data={targetUserData}
+                        columns={playerTableColumns}
+
+                        options={{
+                          selectableRows: false,
+                          responsive: 'scroll',
+                          filter: false,
+                          download: false,
+                          viewColumns: false,
+                          pagination: false,
+
+                        }}
+                      />
+                    </MuiThemeProvider>
+                  </Grid>
+
+                </Grid>
+              </Box>
+            </div>
+          )
+        }
+      </Box>
+    </Grid>
   );
 };
 

@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     border: '2px solid #777777',
     marginTop: '60px',
-    marginLeft: '20%',
+    marginLeft: '15%',
+    minWidth: '50%',
 
   },
   dialogTitle: {

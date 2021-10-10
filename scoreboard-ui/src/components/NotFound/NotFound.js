@@ -28,7 +28,7 @@ const NotFound = () => {
   return (
     <Page
       className={classes.root}
-      title="404"
+      title="RunEscape"
     >
       <Box
         display="flex"

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useLocation} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import {
   Box, Button, Divider, Drawer, Hidden, List, makeStyles,
   TextField, Typography, Grid,
@@ -8,6 +8,7 @@ import {
 import {
   Search, Compare,
 } from '@material-ui/icons';
+import {isEmpty, isNil} from 'lodash';
 import NavItem from './NavItem';
 import overrallIcon from '../../utils/images/overrall.png';
 import atackIcon from '../../utils/images/attack.png';
@@ -48,7 +49,11 @@ const useStyles = makeStyles(() => ({
 
 
 const LeftPanel = ({onMobileClose, openMobile}) => {
-  const [user, setUser] = useState(null);
+  const [searchText, setSearchText] = useState(null);
+  const [sourceUser, setSourceUser] = useState(null);
+  const [targetUser, setTargetUser] = useState(null);
+  const navigate = useNavigate();
+  const formRef = React.useRef();
 
   const classes = useStyles();
   const location = useLocation();
@@ -65,9 +70,9 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
       title: 'Attack',
     },
     {
-      href: '/app/defence',
+      href: '/app/defense',
       icon: deffenceIcon,
-      title: 'Defence',
+      title: 'Defense',
     },
     {
       href: '/app/magic',
@@ -95,10 +100,20 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
-  const handleClick = () => {
-    console.log('Comes here');
-    setUser('');
-    // todo Achini Navigate to user
+  const handleClick = (evt) => {
+    evt.preventDefault();
+    const name = searchText;
+    setSearchText('');
+    navigate('/app/player', {state: {name}});
+  };
+
+  const handleCompare = (evt) => {
+    evt.preventDefault();
+    const sourceUserName = sourceUser;
+    const targetUserName = targetUser;
+    setSourceUser('');
+    setTargetUser('');
+    navigate('/app/compareplayers', {state: {sourceUserName, targetUserName}});
   };
 
 
@@ -133,34 +148,35 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
               Search
             </Typography>
           </Grid>
-          <Grid item xs={11}>
-            <TextField
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
-              value={user}
-              placeholder="Player Name"
-              variant="outlined"
-              required
-              type="string"
-              inputProps={{
-                style: {
-                  padding: 5,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={11}>
-            <Button variant="contained"
-              color="primary"
-              endIcon={<Search/>}
-              href="/app/player"
-              size= 'small'
-              onClick={handleClick}
-            >
+          <form ref={formRef} onSubmit={handleClick}>
+            <Grid item xs={11}>
+              <TextField
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+                value={searchText}
+                placeholder="Player Name"
+                variant="outlined"
+                required={true}
+                type="string"
+                inputProps={{
+                  style: {
+                    padding: 5,
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={11}>
+              <Button variant="contained"
+                color="primary"
+                endIcon={<Search/>}
+                type="submit"
+                size= 'small' onClick={() => formRef.current.reportValidity()}
+              >
               Search
-            </Button>
-          </Grid>
+              </Button>
+            </Grid>
+          </form>
         </Grid>
       </Box>
 
@@ -178,47 +194,49 @@ const LeftPanel = ({onMobileClose, openMobile}) => {
               Compare Players
             </Typography>
           </Grid>
-          <Grid item xs={11}>
-            <TextField
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
-              value={user}
-              placeholder="Player 1"
-              variant="outlined"
-              required
-              type="string"
-              inputProps={{
-                style: {
-                  padding: 5,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={11}>
-            <TextField
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
-              value={user}
-              placeholder="Player 2"
-              variant="outlined"
-              required
-              type="string"
-              inputProps={{
-                style: {
-                  padding: 5,
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={11}>
-            <Button variant="contained"
-              color="primary"
-              endIcon={<Compare/>}
-              href="/app/compareplayers"
-            >Compare</Button>
-          </Grid>
+          <form ref={formRef} onSubmit={handleCompare}>
+            <Grid item xs={11}>
+              <TextField
+                onChange={(e) => {
+                  setSourceUser(e.target.value);
+                }}
+                value={sourceUser}
+                placeholder="Player 1"
+                variant="outlined"
+                required
+                type="string"
+                inputProps={{
+                  style: {
+                    padding: 5,
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={11}>
+              <TextField
+                onChange={(e) => {
+                  setTargetUser(e.target.value);
+                }}
+                value={targetUser}
+                placeholder="Player 2"
+                variant="outlined"
+                required
+                type="string"
+                inputProps={{
+                  style: {
+                    padding: 5,
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={11}>
+              <Button variant="contained"
+                color="primary"
+                endIcon={<Compare/>}
+                type="submit" onClick={() => formRef.current.reportValidity()}
+              >Compare</Button>
+            </Grid>
+          </form>
         </Grid>
       </Box>
 

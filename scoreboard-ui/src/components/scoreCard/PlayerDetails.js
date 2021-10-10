@@ -4,23 +4,37 @@ import {Box, Grid} from '@material-ui/core';
 import AppGlobalObj from '../../utils/AppGlobal';
 import {createTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import {useLocation} from 'react-router-dom';
+import axios from 'axios';
 
 
-const PlayerDetails = (props) => {
-  const apiContextPath = AppGlobalObj.apiContextPath;
+const PlayerDetails = () => {
+  const {state} = useLocation();
+
+  const apiRoute = AppGlobalObj.scoreAPIRoute;
 
   const [playerData, setPlayerData] = useState(null);
 
-  const {name} = props;
+
+  const {name} = state;
 
   const getPlayer = () => {
-    fetch(apiContextPath + '/employees')
-        .then((res) => res.json())
-        .then(setPlayerData)
-        .catch(console.error);
+    const REQ_OBJ = {
+      method: 'GET',
+      url: `${apiRoute}/user/${name.trim()}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    axios(REQ_OBJ)
+        .then((res) => setPlayerData(res.data))
+        .catch((err) => {
+          console.log(err);
+          setPlayerData([]);
+        });
   };
 
-  useEffect(getPlayer, []);
+  useEffect(getPlayer, [apiRoute, name]);
 
   const muiTableTheme = () => createTheme({
     overrides: {
@@ -62,7 +76,7 @@ const PlayerDetails = (props) => {
 
   const playerTableColumns = [
     {
-      name: 'employee_name',
+      name: 'category',
       label: 'Skill',
       options: {
         filter: true,
@@ -70,7 +84,7 @@ const PlayerDetails = (props) => {
       },
     },
     {
-      name: 'id',
+      name: 'rank',
       label: 'Rank',
       options: {
         filter: true,
@@ -78,7 +92,15 @@ const PlayerDetails = (props) => {
       },
     },
     {
-      name: 'employee_salary',
+      name: 'level',
+      label: 'Level',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'score',
       label: 'XP',
       options: {
         filter: true,
@@ -89,7 +111,7 @@ const PlayerDetails = (props) => {
   ];
 
   return (
-    playerData && playerData.data &&
+    playerData &&
       (
         <div>
           <Box sx={{m: 2}} maxHeight={'80%'}
@@ -99,8 +121,8 @@ const PlayerDetails = (props) => {
               <Grid item xs={8}>
                 <MuiThemeProvider theme={muiTableTheme}>
                   <MUIDataTable
-                    title={name}
-                    data={playerData.data}
+                    title={name.toUpperCase()}
+                    data={playerData}
                     columns={playerTableColumns}
 
                     options={{

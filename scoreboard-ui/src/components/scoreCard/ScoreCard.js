@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import MUIDataTable from 'mui-datatables';
 import {Box, Link, Grid, Typography} from '@material-ui/core';
+import axios from 'axios';
 import appGlobalObj from '../../utils/AppGlobal';
 import AppDialog from '../../utils/AppDialog';
 import PlayerScoreCard from './PlayerScoreCard';
@@ -8,9 +9,7 @@ import {createTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 const ScoreCard = (props) => {
-  console.log(props);
-
-  const apiContextPath = appGlobalObj.apiContextPath;
+  const apiRoute = appGlobalObj.scoreAPIRoute;
   const [userData, setUserData] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [playerName, setPlayerName] = useState(null);
@@ -20,20 +19,22 @@ const ScoreCard = (props) => {
 
 
   const getUserList = () => {
-    fetch(apiContextPath + '/employees')
-        .then((res) => res.json())
-        .then((empData) => {
-          if (category === 'magic') {
-            const data = empData.data.filter((e) => e.employee_age > 50);
-            empData.data = data;
-          }
-          return empData;
-        })
-        .then((empData) => {
-          console.log(empData);
-          setUserData(empData);
-        })
-        .catch(console.error);
+    const REQ_OBJ = {
+      method: 'GET',
+      url: `${apiRoute}/category/${category.toUpperCase()}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      params: {
+        limit: 10,
+      },
+    };
+    axios(REQ_OBJ)
+        .then((res) => setUserData(res.data))
+        .catch((err) => {
+          console.log(err);
+          setUserData([]);
+        });
   };
 
   useEffect(getUserList, [category]);
@@ -77,24 +78,24 @@ const ScoreCard = (props) => {
   });
 
   const openInPopup = (name) => {
-    setPopupTitle('Player Scorecard');
+    setPopupTitle('PLAYER SCORECARD');
     setPlayerName(name);
     setOpenPopup(true);
   };
 
   const columns = [
     {
-      name: 'id',
+      name: 'rank',
       label: 'Rank',
     },
     {
-      name: 'employee_name',
+      name: 'userId',
       label: 'Name',
       options: {
         filter: true,
         sort: true,
         customBodyRender: (value, tableMeta, updateValue) => (
-          <Link
+          <Link style={{color: 'white', cursor: 'pointer'}}
             onClick={() => {
               openInPopup(value);
             }}
@@ -103,7 +104,7 @@ const ScoreCard = (props) => {
       },
     },
     {
-      name: 'employee_age',
+      name: 'level',
       label: 'Level',
       options: {
         filter: true,
@@ -111,7 +112,7 @@ const ScoreCard = (props) => {
       },
     },
     {
-      name: 'employee_salary',
+      name: 'score',
       label: 'XP',
       options: {
         filter: true,
@@ -142,10 +143,10 @@ const ScoreCard = (props) => {
 
 
   return (
-    userData && userData.data &&
+    userData &&
     (
       <div>
-        <Box sx={{m: 5}} minHeight={'100%'}>
+        <Box sx={{m: 4}} minHeight={'100%'}>
           <Grid container rowSpacing={10}>
 
             <Grid item xs={2}>
@@ -154,7 +155,7 @@ const ScoreCard = (props) => {
               <MuiThemeProvider theme={muiTableTheme}>
                 <MUIDataTable
                   title={titleTemp}
-                  data={userData.data}
+                  data={userData}
                   columns={columns}
 
                   options={{

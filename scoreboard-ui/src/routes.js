@@ -26,7 +26,7 @@ export const appRoutes = [
         ico={overrallIcon}/>},
       {path: 'attack', element: <ScoreCard category={'attack'}
         ico={atackIcon}/>},
-      {path: 'defence', element: <ScoreCard category={'defence'}
+      {path: 'defense', element: <ScoreCard category={'defense'}
         ico={deffenceIcon}/>},
       {path: 'magic', element: <ScoreCard category={'magic'}
         ico={magicIcon}/>},
@@ -44,7 +44,7 @@ export const appRoutes = [
     path: '/',
     children: [
       {path: '/app/overall', element: <ScoreCard category={'overall'}/>},
-      {path: '/*', element: <Navigate to="/app/overrall" />},
+      {path: '/*', element: <Navigate to="/app/404" />},
     ],
   },
 ];
