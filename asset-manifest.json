@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/my-app/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/my-app/static/js/main.e1a30e45.chunk.js",
+    "main.js.map": "/my-app/static/js/main.e1a30e45.chunk.js.map",
+    "runtime-main.js": "/my-app/static/js/runtime-main.c0ccfcf3.js",
+    "runtime-main.js.map": "/my-app/static/js/runtime-main.c0ccfcf3.js.map",
+    "static/js/2.3d8e4133.chunk.js": "/my-app/static/js/2.3d8e4133.chunk.js",
+    "static/js/2.3d8e4133.chunk.js.map": "/my-app/static/js/2.3d8e4133.chunk.js.map",
+    "static/js/3.d0b7b7c7.chunk.js": "/my-app/static/js/3.d0b7b7c7.chunk.js",
+    "static/js/3.d0b7b7c7.chunk.js.map": "/my-app/static/js/3.d0b7b7c7.chunk.js.map",
+    "index.html": "/my-app/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/my-app/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.3d8e4133.chunk.js.LICENSE.txt": "/my-app/static/js/2.3d8e4133.chunk.js.LICENSE.txt",
+    "static/media/Background.0a0c39f0.jpg": "/my-app/static/media/Background.0a0c39f0.jpg",
+    "static/media/DialogBackground.e5414053.jpg": "/my-app/static/media/DialogBackground.e5414053.jpg",
+    "static/media/attack.3924e889.png": "/my-app/static/media/attack.3924e889.png",
+    "static/media/cook.040cb5de.png": "/my-app/static/media/cook.040cb5de.png",
+    "static/media/crafting.7e7e45ac.png": "/my-app/static/media/crafting.7e7e45ac.png",
+    "static/media/defence.34dcb4a6.png": "/my-app/static/media/defence.34dcb4a6.png",
+    "static/media/magic5.7f0c19ba.png": "/my-app/static/media/magic5.7f0c19ba.png",
+    "static/media/overrall.a34cbd14.png": "/my-app/static/media/overrall.a34cbd14.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c0ccfcf3.js",
+    "static/js/2.3d8e4133.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.e1a30e45.chunk.js"
+  ]
+}
