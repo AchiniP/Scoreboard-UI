@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Scoreboard-UI/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/Scoreboard-UI/static/js/main.e1a30e45.chunk.js",
-    "main.js.map": "/Scoreboard-UI/static/js/main.e1a30e45.chunk.js.map",
+    "main.js": "/Scoreboard-UI/static/js/main.8e6a689b.chunk.js",
+    "main.js.map": "/Scoreboard-UI/static/js/main.8e6a689b.chunk.js.map",
     "runtime-main.js": "/Scoreboard-UI/static/js/runtime-main.19373531.js",
     "runtime-main.js.map": "/Scoreboard-UI/static/js/runtime-main.19373531.js.map",
     "static/js/2.3d8e4133.chunk.js": "/Scoreboard-UI/static/js/2.3d8e4133.chunk.js",
@@ -13,7 +13,7 @@
     "static/css/main.6dea0f05.chunk.css.map": "/Scoreboard-UI/static/css/main.6dea0f05.chunk.css.map",
     "static/js/2.3d8e4133.chunk.js.LICENSE.txt": "/Scoreboard-UI/static/js/2.3d8e4133.chunk.js.LICENSE.txt",
     "static/media/Background.0a0c39f0.jpg": "/Scoreboard-UI/static/media/Background.0a0c39f0.jpg",
-    "static/media/DialogBackground.e5414053.jpg": "/Scoreboard-UI/static/media/DialogBackground.e5414053.jpg",
+    "static/media/DialogBackground.3da53b41.jpg": "/Scoreboard-UI/static/media/DialogBackground.3da53b41.jpg",
     "static/media/attack.3924e889.png": "/Scoreboard-UI/static/media/attack.3924e889.png",
     "static/media/cook.040cb5de.png": "/Scoreboard-UI/static/media/cook.040cb5de.png",
     "static/media/crafting.7e7e45ac.png": "/Scoreboard-UI/static/media/crafting.7e7e45ac.png",
@@ -25,6 +25,6 @@
     "static/js/runtime-main.19373531.js",
     "static/js/2.3d8e4133.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.e1a30e45.chunk.js"
+    "static/js/main.8e6a689b.chunk.js"
   ]
 }
